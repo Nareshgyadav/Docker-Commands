@@ -1,0 +1,111 @@
+# Docker images are a crucial part of Docker's containerization technology. 
+# They serve as the blueprint for creating Docker containers. 
+# Here’s a quick rundown of Docker image-related commands and concepts:
+
+# Docker Image Theory
+
+Docker Image: A Docker image is a read-only template that contains the application code, libraries, 
+  and dependencies required to run an application. Images are used to create Docker containers.
+
+Dockerfile: A Dockerfile is a script with a set of instructions used to build a Docker image. 
+  It specifies the base image, application code, dependencies, environment variables, and commands to run.
+
+Layers: Docker images are made up of layers. Each layer represents a change or addition to the base image. 
+  Layers are cached and reused to optimize build times.
+
+Tags: Tags are used to identify different versions of an image. For example, nginx:latest or nginx:1.21.1.
+
+Registry: A registry is a repository for storing Docker images. Docker Hub is the default public registry, 
+  but you can also use private registries.
+
+# Docker Image Commands
+
+Build an Image:
+# docker build -t image-name:tag .
+  -t specifies the name and tag for the image.
+  . indicates the build context, usually the current directory containing the Dockerfile.
+
+List Images:
+# docker images
+  Lists all available images on your local machine.
+
+Remove an Image:
+# docker rmi image-name:tag
+  Removes the specified image from your local machine.
+
+Pull an Image:
+# docker pull image-name:tag
+  Downloads an image from a Docker registry to your local machine.
+
+Push an Image:
+# docker push image-name:tag
+  Uploads an image to a Docker registry.
+
+Tag an Image:
+# docker tag source-image:tag target-image:tag
+  Adds a new tag to an existing image.
+
+Inspect an Image:
+# docker inspect image-name:tag
+  Displays detailed information about an image, including its configuration and history.
+
+Save an Image:
+# docker save -o image-name.tar image-name:tag
+  Saves an image to a tar archive file.
+
+Load an Image:
+# docker load -i image-name.tar
+  Loads an image from a tar archive file.
+
+Prune Unused Images:
+# docker image prune
+  Removes unused images from your system.
+
+# Practical Examples
+
+Build a Custom Image: Create a Dockerfile with your application setup and then build it.
+# docker build -t my-app:latest .
+
+Run a Container from an Image:
+# docker run -d -p 80:80 my-app:latest
+  -d runs the container in detached mode.
+  -p maps port 80 of the container to port 80 of the host.
+
+# Advanced Docker Image Commands
+
+List Image History:
+# docker history image-name:tag
+  Shows the history of an image, including layer sizes and creation times.
+
+Create a New Image from a Container:
+# docker commit container-id new-image-name:tag
+  Creates a new image from a container's changes. Useful for saving the state of a container.
+
+Export a Container's Filesystem:
+# docker export -o container-name.tar container-id
+  Exports the filesystem of a container to a tar archive.
+
+Import a Filesystem Archive as an Image:
+# docker import - image-name:tag < container-name.tar
+  Imports a tar archive as a new Docker image.
+
+Compare Two Images:
+# docker diff container-id
+  Shows changes made to a container's filesystem compared to its base image.
+
+Check for Vulnerabilities:
+# docker scan image-name:tag
+  Scans the image for known vulnerabilities using Docker's integrated scanning tool.
+
+Inspect Layers of an Image:
+# docker history --no-trunc image-name:tag
+  Shows detailed history of an image, including command details for each layer.
+
+Handling Build Arguments:
+Purpose: To pass variables at build time to customize the Docker image.
+Example:
+# dockerfile
+  ARG APP_ENV=production
+  ENV APP_ENV=${APP_ENV}
+Build with:
+# docker build --build-arg APP_ENV=development -t my-app:dev .
