@@ -1,0 +1,43 @@
+How Dockerfile Works ?
+
+    A Dockerfile is a text file that contains instructions on how to build a Docker image.
+
+What is a Dockerfile?
+
+    A Dockerfile is a text file that contains instructions on how to build a Docker image. Each instruction is composed of a command followed by one or more arguments. By convention, commands are written in uppercase to distinguish them from arguments and make the Dockerfile more readable.
+
+Common Dockerfile Instructions:
+-------------------------------
+Below, we discuss some of the most important commands commonly used in a Dockerfile:
+
+# FROM: 
+    Specifies the base image for subsequent instructions. Every Dockerfile must start with a FROM command. 
+
+# LABEL: 
+    Adds metadata to the image in the form of key-value pairs. This metadata can include information such as the version, description, or the maintainer of the image.
+
+# MAINTAINER: 
+    Specifies the person or organization responsible for maintaining the image.
+
+# EXPOSE: 
+    Documents the port that the container will listen on at runtime. This does not actually publish the port; it only serves as a way to document which ports are intended to be exposed.
+
+# ADD / COPY: 
+    Both commands enable the transfer of files from the host to the container’s filesystem. The ADD instruction is particularly useful when adding files from remote URLs or for the automatic extraction of compressed files from the local filesystem directly into the container's filesystem. Note that Docker recommends using COPY over ADD, especially when transferring local files. 
+
+# WORKDIR: 
+    Sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile. If the specified directory does not exist, it’s created automatically.
+
+# USER: 
+    Sets the user name or UID that the image should use when running commands in the container. This can help with security by avoiding running containers as the root user.
+
+
+# RUN: 
+    Executes commands specified during the build step of the container. It can be used to install necessary packages, update existing packages, and create users and groups, among other system configuration tasks within the container.
+
+# ENV: 
+    Sets environment variables in the container. These can be used to configure settings and provide information to applications running inside the container.
+
+# CMD / ENTRYPOINT: 
+    Both provide default commands to be executed when a Docker image is run as a container. The main distinction is that the argument passed to the ENTRYPOINT command cannot be overridden, while the argument passed to the CMD command can.
+
