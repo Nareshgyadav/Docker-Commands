@@ -1,0 +1,176 @@
+# Basic Docker Container commands
+
+# Pull an Image from Docker Hub
+command:
+  docker pull <image_name>:<tag>
+Example:
+  docker pull nginx:latest
+
+Theory: 
+  Docker Hub is a public registry where Docker images are stored. When you pull an image, Docker downloads
+  it from Docker Hub (or any other specified registry) to your local system. The image contains the application,
+  along with its dependencies, in a ready-to-run state.
+
+
+# Run a Container
+command:
+  docker run -d --name <container_name> -p <host_port>:<container_port> <image_name>
+Example:
+# docker run -d --name my-nginx -p 8080:80 nginx
+
+Theory: 
+  The docker run command creates and starts a container from an image. The -d flag runs the container 
+  in detached mode (in the background). The -p flag maps the host port to the container port, enabling external 
+  access to the container's services. The container name is optional, but it helps in easily managing containers.
+  
+# List Running Containers
+command:
+  docker ps
+Theory: 
+  This command lists all currently running containers. It shows details like container ID, image name,
+  command, creation time, status, ports, and container name.
+
+
+For all containers (including stopped ones):
+# docker ps -a
+Theory: 
+  Adding the -a flag lists all containers, including those that are stopped or exited.
+
+# Stop a Running Container
+command:
+  docker stop <container_name_or_id>
+Theory: 
+  This command stops a running container gracefully. Docker sends a SIGTERM signal to the main process inside 
+  the container, allowing it to shut down cleanly.
+  
+  
+# Start a Stopped Container
+command:
+  docker start <container_name_or_id>
+Theory: 
+  The docker start command starts a stopped container. This is useful when you want to bring back a container 
+  without creating a new one.
+
+# Restart a Container
+command:
+  docker restart <container_name_or_id>
+Theory: 
+  This command stops and then starts a container. It’s useful when you want to refresh the container without 
+  losing its current state or data.
+
+# Remove a Container
+command:
+  docker rm <container_name_or_id>
+To force remove a running container:
+  docker rm -f <container_name_or_id>
+Theory: 
+  The docker rm command deletes a container. If a container is running, it must be stopped first using docker 
+  stop or removed forcefully with the -f flag. Removing a container deletes all of its data, so it should be 
+  used carefully.
+
+# Inspect a Container
+command:
+  docker inspect <container_name_or_id>
+Theory: 
+  The docker inspect command provides detailed information about a container, including its configuration, 
+  state, network settings, and more. It outputs the data in JSON format, making it easy to parse programmatically.
+
+# Check Logs of a Container
+command:
+  docker logs <container_name_or_id>
+To follow logs in real-time:
+  docker logs -f <container_name_or_id>
+Theory: 
+  Docker logs provide the output of the container’s main process, which is useful for debugging and monitoring. 
+  The -f flag allows you to follow the logs in real-time, similar to the tail -f command.
+
+# Access a Running Container (Interactive Shell)
+command:
+  docker exec -it <container_name_or_id> /bin/bash
+If the container uses sh instead of bash:
+  docker exec -it <container_name_or_id> /bin/sh
+Theory: 
+  The docker exec command allows you to run commands inside a running container. The -it flag enables 
+  interactive mode with a terminal, so you can access the container’s shell. This is useful for troubleshooting 
+  or running administrative tasks within the container.
+
+# Copy Files/Folders Between Container and Host
+From container to host:
+  docker cp <container_name_or_id>:/path/to/file /host/path
+From host to container:
+  docker cp /host/path <container_name_or_id>:/path/to/file
+Theory: 
+  The docker cp command copies files or directories between the host and a container. This is useful for 
+  transferring configuration files, logs, or other data between the container and the host system.
+
+# View Resource Usage (CPU, Memory, etc.) of Containers
+command:
+  docker stats
+Theory: 
+  The docker stats command provides real-time statistics on resource usage for running containers. 
+  This includes CPU, memory, network I/O, and block I/O, helping you monitor and optimize container performance.
+
+# Advanced Docker Container commands
+
+# Commit Changes to a Container into a New Image
+command:
+  docker commit <container_name_or_id> <new_image_name>:<tag>
+Example:
+  docker commit my-nginx my-custom-nginx:latest
+Theory: 
+  The docker commit command captures the current state of a container and saves it as a new image. 
+  This is useful when you’ve made changes inside a container that you want to save as a new image for future use.
+
+# Stop and Remove All Running Containers
+command:
+  docker stop $(docker ps -aq)
+  docker rm $(docker ps -aq)
+Theory: 
+  These commands stop and remove all containers on the system. docker ps -aq lists all container IDs,
+  which are then passed to the docker stop and docker rm commands. This is useful for cleaning up the environment.
+
+# Run a Container with a Mounted Volume
+command:
+  docker run -d --name <container_name> -v /host/path:/container/path <image_name>
+Example:
+  docker run -d --name my-app -v /home/user/app:/app my-app-image
+Theory: 
+  The -v flag mounts a host directory as a volume inside the container. This allows you to persist data outside 
+  of the container’s filesystem or share data between the container and the host. It’s useful for scenarios like database storage, configuration files, or application code.
+
+# Remove All Stopped Containers
+command:
+  docker container prune
+Theory: 
+  The docker container prune command removes all stopped containers from the system. This helps to free up disk 
+  space and keep the environment clean by removing unused containers.
+
+# Check Port Mappings for a Container
+command:
+  docker port <container_name_or_id>
+Theory: 
+  The docker port command shows the port mappings for a specific container, displaying which ports on the host 
+  are mapped to which ports inside the container. This is useful for verifying that your containerized services 
+  are accessible as expected.
+
+# Create a Container Without Starting It
+command:
+  docker create --name <container_name> <image_name>
+Theory: 
+  The docker create command creates a new container from an image but does not start it. This allows you to 
+  configure the container (e.g., set up volumes, networks) before starting it.
+
+# Connect a Container to a Network
+command:
+  docker network connect <network_name> <container_name_or_id>
+Theory: 
+  This command connects an existing container to a network, enabling it to communicate with other containers 
+  on the same network. Docker’s networking features allow containers to interact securely and efficiently, 
+  whether on the same host or across multiple hosts.
+
+# Disconnect a Container from a Network
+command:
+  docker network disconnect <network_name> <container_name_or_id>
+Theory: 
+  The docker network disconnect command removes a container from a network, isolating it from other containers. 
+  This is useful for managing container communication and security.
