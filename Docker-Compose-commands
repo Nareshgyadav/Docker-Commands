@@ -1,0 +1,114 @@
+# Docker Compose: 
+Theory:
+  Docker Compose is a tool for defining and running multi-container Docker applications. 
+  It uses a YAML file (docker-compose.yml) to configure the application’s services, networks, and volumes.
+  With a single command, Docker Compose can start, stop, and manage all the services defined in this file.
+
+# Key Components of Docker Compose:
+
+Services: Define the containers that will be part of the application. Each service corresponds to a container.
+Networks: Define the networking environment for the containers. By default, services are connected to a default network.
+Volumes: Define shared storage that can be used by multiple services.
+
+# Advantages of Docker Compose:
+
+Simplified Multi-Container Deployment: Manage the entire application stack with a single command.
+Environment Isolation: Define different configurations for development, testing, and production environments.
+Ease of Use: Automate the application lifecycle (start, stop, rebuild) with simple commands.
+Practical:
+
+# Creating a docker-compose.yml File:
+
+version: '3'
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+  app:
+    image: myapp:latest
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - ENV=development
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+
+This file defines a simple multi-container application with three services: 
+  web (Nginx server), app (custom application), and db (PostgreSQL database).
+
+# Basic Docker Compose Commands:
+
+Starting Services:
+# docker-compose up
+  This command reads the docker-compose.yml file, creates and starts the defined services. By default, it runs
+  in the foreground and shows logs.
+
+Running in Detached Mode:
+# docker-compose up -d
+  This starts the services in the background (detached mode).
+
+Stopping Services:
+# docker-compose down
+  This command stops and removes all the containers, networks, and volumes defined in the docker-compose.yml file.
+
+Building or Rebuilding Services:
+# docker-compose build
+  This builds the images defined in the docker-compose.yml file. If the images already exist, they will be rebuilt.
+
+Viewing Logs:
+# docker-compose logs
+This command displays the logs for all the services. You can also view logs for a specific service by appending the service name:
+# docker-compose logs web
+
+
+Scaling Services:
+# docker-compose up --scale app=3
+  This command scales the app service to run 3 instances. It’s useful for load balancing and testing.
+
+Listing Running Services:
+# docker-compose ps
+  This lists all the running containers managed by Docker Compose.
+
+Running a One-Off Command:
+# docker-compose run web echo "Hello from Docker"
+  This runs a one-time command within a service container without starting other services. Useful for running migrations or initial setup commands.
+
+Removing Stopped Services:
+# docker-compose rm
+  This removes stopped containers created by Docker Compose.
+
+Advanced Docker Compose Commands:
+
+Pulling Updated Images:
+# docker-compose pull
+  This command pulls the latest images for all services defined in the docker-compose.yml file.
+
+Checking Configuration:
+# docker-compose config
+  This validates and displays the configuration without starting any services. It’s useful for checking for errors in the docker-compose.yml file.
+
+Stopping Individual Services:
+# docker-compose stop web
+  This stops a specific service without affecting others.
+
+Restarting Services:
+# docker-compose restart
+
+
+This restarts all or specific services. To restart a single service:
+# docker-compose restart web
+
+Viewing Container Stats:
+# docker-compose top
+  This displays the running processes of services in the Docker Compose project, similar to the docker top command.
+
+  These Docker Compose commands offer powerful capabilities to manage complex, multi-container applications efficiently. 
+  Whether you're developing, testing, or deploying, Docker Compose simplifies the workflow with easy-to-use commands.
